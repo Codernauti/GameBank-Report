@@ -45,3 +45,24 @@ tab, there is the transaction log, that is updated every time someone creates a
 new transaction. In this log, players can see all the transactions. In this 
 way, they can check if someone is cheating. \todo{Here we should put a 
 screenshot of the application}
+
+\subsection{Architecture}
+
+GameBank architecture is composed of two layers \todo{Insert figure here}: one 
+for the communications/networking and the other one for the game logic. With 
+this architecture data trasmission and game logic are highly decoupled, so that 
+is easy to make changes to one of the two parts. In particular, this could lead 
+to a simpler re-utilization of the network layer in other applications.
+
+The whole application is built using the event architecture. Every change in 
+the application state is interpreted as a new event, that has a particular tag 
+and is captured from subscribers along the application. While this seems to 
+make the flow difficult to understand and cubersome, it actually allows to keep 
+the code very decoupled.
+
+Regarding the network layer, it is built in a way that host and client 
+operations are as similar as possible. The only different parts are the way 
+clients and hosts get the MAC address of the receiver. In particular, the host 
+has to keep in memory all the clients addresses, while the clients need to 
+keep in memory only the host address. A particular object, \texttt{BTBundle} is 
+used as a wrapper where other layers can put data to send.
