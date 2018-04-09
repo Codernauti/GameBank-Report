@@ -10,9 +10,9 @@ repository available in~\cite{gamebank18}.
 GameBank, as already described in Section CHANGEME, \todo{Section 1 ref 
 missing} is an application complementary to a board game. It helps players 
 removing some burden related to manage possible in-game transaction, 
-distributing the task to the members and removing the needing of a game master.
+distributing the task to the members and eliminating the need of a game master.
 
-Since the nature of board games, the application is designed to work 
+Since the social nature of board games, the application is designed to work 
 in multiplayer-only mode. Indeed, because a single player match is a particular 
 instance of a multiplayer game, the application can start a match even with one 
 member, but it has to keep the Bluetooth link on.
@@ -26,9 +26,22 @@ Identifier), so different players can have the same username.
 There are two ways to start a match: loading the game from a save and starting 
 a new one. In any case, the smartphone performing one of these actions becomes 
 the Bluetooth master, and it starts waiting for other players to join the 
-lobby. When a player join a lobby, she has the possibility to ``poke'' the 
-master, that she will see a toast message on her screen. Additionally, the 
-player that join the match has to set herself as ready: indeed a match can not 
-start if anyone in the lobby is not ready.
-When everyone is ready, the host has the possibility to start the match, making 
-all the conncted devices display the transaction board.
+lobby. When a player joins, she has the possibility to ``poke'' the master, 
+that sees a toast message on her screen. Additionally, the player that join the 
+match has to set herself as ready: indeed a match can not start if anyone in the 
+lobby is not ready. 
+The connections created is an ad-hoc one, but as a matter of fact the master 
+forwards the packets it receives to everyone after the match starts, simulating 
+a P2P (Peer-to-Peer) networking. We saw this as an opportunity to semplificate 
+transaction communications.
+When all the conditions to start the match are met, the host has the 
+possibility start it, making every conncted devices display the dashboard 
+activity.
+
+The dashboard activity is subdivided in two tabs: one for transfer money and 
+the other one to see the transaction log. In the first tab, users can send 
+money to each other or to themselves (impresonating the bank). In the second 
+tab, there is the transaction log, that is updated every time someone creates a 
+new transaction. In this log, players can see all the transactions. In this 
+way, they can check if someone is cheating. \todo{Here we should put a 
+screenshot of the application}
