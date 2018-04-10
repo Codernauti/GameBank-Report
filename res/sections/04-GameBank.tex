@@ -66,3 +66,15 @@ clients and hosts get the MAC address of the receiver. In particular, the host
 has to keep in memory all the clients addresses, while the clients need to 
 keep in memory only the host address. A particular object, \texttt{BTBundle} is 
 used as a wrapper where other layers can put data to send.
+
+\begin{figure}[t]
+ \centering
+ \includegraphics[scale=0.4]{GameBank}
+ \caption{GameBank architecture}
+ \label{fig:gbArchitecture}
+\end{figure}
+
+The game layer simply takes the events coming from the network transmissions, 
+and store the data in a Realm database\footnote{\url{https://realm.io/}}, that 
+is based on events too. Finally, the views get updated with new data stored in 
+the database.
