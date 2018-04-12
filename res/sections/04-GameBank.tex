@@ -143,3 +143,47 @@ they are asynchronous for packets regarding \texttt{POKE}
 and \texttt{MEMBER\_READY} actions. Instead, during the match, all the 
 communications are performed synchronously since the order of the transactions 
 is very important.
+
+\subsection{Known issues}
+
+During the app development we have faced some issues that we were able to 
+partially solve.
+
+\subsubsection{Image dimensions}
+
+As already said, images too large cause long time transmission with Bluetooth, 
+resulting in the application hanging while transferring data, providing bad 
+usability. In order to solve this problem, we have reduced image dimension, 
+scaling it, converting to the JPEG format and reducing its overall quality.
+
+\subsubsection{S3 first application run}
+
+We found that using the Samsung S3 (I9300) model permissions were not granted 
+correctly, consequently we were not able to save the user's photos properly and 
+thus to send her profile picture at the first application run. Debugging did 
+not produce any evidence of bugs in our application, since the permissions 
+were granted during the start up time.
+We address this issue to the custom ROM installed on the smartphone, LineageOS 
+(Android Nougat 7.1), which probably has some problem to handle authorizations 
+only on S3 smartphones. In fact, we tried this ROM on a Nexus 5 and we have not 
+noticed any erroneous behaviour. To confirm our guesses, we tried other 
+applications available on the Google's Play Store, experiencing the same 
+problem.
+
+\subsubsection{Realm database}
+
+Realm, the database GameBank uses to store data, generated some problem 
+especially regarding extrapolating data from it. In fact, Realm create 
+particular istances of classes that act as proxy from the real data contained 
+in the database, to save RAM memory. This made difficult to send these objects 
+via Bluetooth. Initially we tried to send/receive them with 
+\texttt{ObjectOutputStream} and \texttt{ObjectInputStream}, but we discovered 
+that Realm objects were not serializable. Then, we tried to convert them into 
+JSON objects, but even here we faced some problems because we had to manually 
+implement serializer/deserializer handlers for the \texttt{Gson} framework we 
+used to manipulate JSONs, since these Realm proxies didn't provide 
+automatically data at conversion time.
+
+On top of that, the framework revealed to be very difficult to decuple with the 
+rest of the application, resulting sometimes in a blending between the view and 
+the logic modules.
