@@ -48,17 +48,20 @@ screenshot of the application}
 
 \subsection{Architecture}
 
-GameBank architecture is composed of two layers \todo{Insert figure here}: one 
-for the communications/networking and the other one for the game logic. With 
-this architecture data trasmission and game logic are highly decoupled, so that 
-is easy to make changes to one of the two parts. In particular, this could lead 
-to a simpler re-utilization of the network layer in other applications.
+GameBank architecture is composed of two layers (as 
+explained in Figure~\ref{fig:gbArchitecture}): one for the 
+communications/networking and the other one for the game logic. 
 
-The whole application is built using the event architecture. Every change in 
-the application state is interpreted as a new event, that has a particular tag 
-and is captured from subscribers along the application. While this seems to 
-make the flow difficult to understand and cubersome, it actually allows to keep 
-the code very decoupled.
+With this architecture data trasmission and game logic are highly decoupled, so 
+that is easy to make changes to one of the two parts. In particular, this could 
+lead to a simpler re-utilization of the network layer in other applications.
+
+The whole application is built following an event driven architecture. Every 
+change in the application state is interpreted as a new event, that has a 
+particular tag and is captured from subscribers along the application. While 
+this seems to make the flow difficult to understand and cubersome, it actually 
+allows to keep the code very decoupled. To achieve this, we used specific APIs 
+Android offers, in particular \texttt{LocalBroadcastManager}.
 
 Regarding the network layer, it is built in a way that host and client 
 operations are as similar as possible. The only different parts are the way 
@@ -75,9 +78,11 @@ used as a wrapper where other layers can put data to send.
 \end{figure}
 
 The game layer simply takes the events coming from the network transmissions, 
-and store the data in a Realm database\footnote{\url{https://realm.io/}}, that 
-is based on events too. Finally, the views get updated with the new data stored 
-in the database.
+and it stores the data in a Realm database\footnote{\url{https://realm.io/}} 
+through the logic layer, that is based on events too. Finally, the views, that 
+are what the user sees and interact with, subscribe to events coming from logic 
+and bluetooth parts, allowing them to be updated by the \textit{on change 
+callbacks}.
 
 \subsection{Game creation}
 
@@ -151,10 +156,11 @@ partially solve.
 
 \subsubsection{Image dimensions}
 
-As already said, images too large cause long time transmission with Bluetooth, 
+As already said, images too large cause long time transmissions with Bluetooth, 
 resulting in the application hanging while transferring data, providing bad 
 usability. In order to solve this problem, we have reduced image dimension, 
-scaling it, converting to the JPEG format and reducing its overall quality.
+scaling it to a default dimension, converting it to the JPEG format and 
+reducing its overall quality.
 
 \subsubsection{S3 first application run}
 
