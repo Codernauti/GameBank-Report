@@ -156,11 +156,14 @@ partially solve.
 
 \subsubsection{Image dimensions}
 
-As already said, images too large cause long time transmissions with Bluetooth, 
-resulting in the application hanging while transferring data, providing bad 
-usability. In order to solve this problem, we have reduced image dimension, 
-scaling it to a default dimension, converting it to the JPEG format and 
-reducing its overall quality.
+As already said, images too large cause long transmission times with bluetooth, 
+an since we transfer data  in the main thread, this results in the application 
+hanging while transferring it, providing bad usability. In order to partially 
+solve this problem, we have reduced images dimension, scaling them to a default 
+one, converting them to the JPEG format and reducing their overall quality. A 
+definitive solution would be using a thread different from the one running the 
+user interface, displaying to the user a loading message during bluetooth 
+transmissions.
 
 \subsubsection{S3 first application run}
 
