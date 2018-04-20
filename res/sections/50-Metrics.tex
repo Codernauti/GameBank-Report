@@ -1,0 +1,22 @@
+\section{Results}
+
+During GameBank development we have created some metrics in order to gain 
+additional information about our application behaviour. In particular, we 
+have focused our attention about Bluetooth, creating a counter of the data 
+received and transmitted for a particular device. Only the payload transmitted 
+has been counted tough, since we weren't able to intercept data communications 
+between devices that would have provided better measurements. The metrics are 
+stored in a file in a \texttt{csv} format, containing the type of transmission 
+(input or output), the quantity of the data exchanged and the type of the 
+event in the \texttt{BTBundle}.
+
+\todo{Insert here: the number of test done, a table with the results, how we 
+performed the tests}
+
+In conclusion, we can see how the biggest data exchange is during the lobby 
+formation. This is due the fact that profile pictures are exchanged and 
+broadcated through all the peers. During the match, the traffic is little, 
+because the transaction are relatively small, with a size of only 
+CHANGEME\todo{Set the average transaction size}. Thus, bluetooth particularly 
+fit in this context, since most of the time the data sent between devices is 
+quite small.
