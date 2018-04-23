@@ -1,0 +1,26 @@
+\section{Future Works}
+
+Working on this project led us to figure out new features that could be 
+implemented in the future. In particular, one of these could be host migration: 
+at the host disconnection, one of the slave devices could be elected (sorting it 
+by MAC address or by username) as a new master and reinstantiate the match. 
+By the way, this feature is not trivial to achieve since Bluetooth API in 
+Android requires the user intervention, making the transition not seamless.
+
+Another future work that we think it might be useful could be implementing 
+the hot-join feature, allowing new players to join an already started match. 
+One concern is regarding battery consumption though: keeping a Bluetooth device 
+always discoverable is energy-consuming and it could drain the master battery 
+very quickly. Nonetheless, Android documentation heavily discourage keeping a 
+device discoverable, since it could be susceptible to security 
+attacks\footnote{Additional documentation con be found at: \url{ 
+https://developer.android.com/guide/topics/connectivity/bluetooth.html\#Enabling
+Discoverability}}.
+A fairly reasonable solution could be to give to the host the possibility to 
+make his device discoverable.
+
+Finally, the application could better support card games like Poker adding the 
+possibility to retrieve all the money from the bank and the ability to see 
+how much money a player has, thus making it more general purpose. Generally 
+speaking, this extends the opportunities to use GameBank in different scenarios, 
+especially in context not foreseen by us.
