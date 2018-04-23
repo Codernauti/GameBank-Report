@@ -91,21 +91,20 @@ going to describe in the details the procedure we have designed to connect the
 Bluetooth devices and to start a match.
 
 When a user opens a match, in the network layer a Bluetooth socket is opened 
-and set up for an incoming connection. When a client connects to the host, first 
-it saves its UUID, then it perform a \textit{rendezvous}: in other words a 
-\texttt{BTBundle} with all the client information is sent (including player 
-username and profile picture) to the host. This is the slower phase of the 
-connection: indeed transferring the profile picture is a heavy task for 
-Bluetooth, that takes seconds to transfer the image, even if we used compression 
-techniques to reduce images dimensions. We called this event 
-\texttt{MEMBER\_CONNECTED}. Since the connection of a new member needs to be 
-broadcasted to everyone, the host forwards to all the other clients already in 
-the lobby the \texttt{BTBundle} the new member initially sent, acting in a 
-transparent way. When this phase is completed, the host informs the new client 
-with all the informations regarding the match, as the lobby name and a list of 
-players already connected. We labelled this event as \texttt{CURRENT\_STATE}. In 
-case the match comes from a previous save, the new client receives, in the same 
-event, all the transactions performed before.
+and set up for an incoming connection. When a client connects to the host, to 
+host, first it saves its UUID, its username and its profile picture into a 
+BTBundle (a rendezvous) and then it sends it back.
+This is the slower phase of the connection: indeed transferring the profile 
+picture is a heavy task for Bluetooth, that takes seconds to transfer the image, 
+even if we used compression techniques to reduce images dimensions. We called 
+this event \texttt{MEMBER\_CONNECTED}. Since the connection of a new member 
+needs to be broadcasted to everyone, the host forwards to all the other clients 
+already in the lobby the \texttt{BTBundle} the new member initially sent, acting 
+in a transparent way. When this phase is completed, the host informs the new 
+client with all the informations regarding the match, as the lobby name and a 
+list of players already connected. We labelled this event as 
+\texttt{CURRENT\_STATE}. In case the match comes from a previous save, the new 
+client receives, in the same event, all the transactions performed before.
 
 \begin{figure}[t]
  \centering
