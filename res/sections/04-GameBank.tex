@@ -93,7 +93,7 @@ Bluetooth devices and to start a match.
 When a user opens a match, in the network layer a Bluetooth socket is opened 
 and set up for an incoming connection. When a client connects to the host, to 
 host, first it saves its UUID, its username and its profile picture into a 
-BTBundle (a rendezvous) and then it sends it back.
+\texttt{BTBundle} (a rendezvous) and then it sends it back.
 This is the slower phase of the connection: indeed transferring the profile 
 picture is a heavy task for Bluetooth, that takes seconds to transfer the image, 
 even if we used compression techniques to reduce images dimensions. We called 
