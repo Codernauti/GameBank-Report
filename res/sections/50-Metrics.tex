@@ -36,23 +36,23 @@ Table~\ref{tab:res:lod}, with different Android versions to check the correct
 behaviour of bluetooth between different manufacturers. While we ensured that 
 there is compatibility of bluetooth across different models, we discovered that 
 for some devices the bytes transmitted during the \texttt{MEMBER\_CONNECTED} 
-event where different. After some digging we observed that these deltas were 
-caused by different algorithm implementations for JPEG generation that are 
-dependent of the Android version. In particular, smaller images are generated 
-by newest Android versions we tested. Due these deltas, we think there is the 
+event were different. After some digging we observed that these deltas were 
+caused by different algorithm implementations for JPEG generation that depend
+on the Android version. In particular, smaller images are generated 
+by newest Android versions we tested. Due to these deltas, we think there is the 
 possibility to infer the Android version, opening to security implications.
 
-Since the compatibility of bluetooth, for all the tests we used the same host, 
+Since the compatibility of bluetooth, for all the tests we used the same host: 
 the ASUS ZenFone Go.
 
 \subsection{Test settings}
 
-In order to obtain significant data from our tests we set the user profile to 
-have the same profile picture and the same username length, ensuring the player 
+In order to obtain comparable data from our tests we set for each device 
+the same profile picture and the same username length, ensuring the player 
 profile payload to be the same for everyone. Moreover every match had the same 
 name length and the same initial budget, set to \texttt{100}. We remark 
 that every value is transformed to a string before its transmission, thus
-modifing length of the values would imply different byte transmitted.
+modifing length of the values would imply different quantity of bytes transmitted.
 
 \subsection{Data analysis}
 \begin{figure}[t]
