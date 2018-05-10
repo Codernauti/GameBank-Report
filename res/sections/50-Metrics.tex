@@ -1,4 +1,5 @@
 \section{Results}
+\label{results}
 
 During GameBank development we have created some metrics in order to gain 
 additional information about our application behaviour. In particular, we 
@@ -83,10 +84,9 @@ expectations.
 In conclusion, the biggest data exchange is happening during the lobby 
 formation. This is due the fact that profile pictures are exchanged and 
 broadcated through all the peers. During the match, the traffic is very 
-limited, because the transactions are relatively small, with a size of only 
-CHANGEME\todo{Set the average transaction size}. Thus, bluetooth particularly 
-fit in this context, since most of the time the data sent between devices is 
-quite small.
+limited, because the transactions are relatively small, with an average size of 
+only 500 Bytes. Thus, bluetooth particularly fit in this context, since most of 
+the time the data sent between devices is quite small.
 The only thing that surprised us was that Android is not able to support over 
 seven simultaneous bluetooth connection. When we tried to connect eight devices 
 we incurred in an Android bluetooth API crash.
