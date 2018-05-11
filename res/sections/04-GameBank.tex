@@ -16,13 +16,13 @@ eliminating the need of a game master.
 Since the social nature of board games, the application is designed to work 
 in multiplayer-only mode. Indeed, because a single player match is a particular 
 instance of a multiplayer game, the application can start a match even with one 
-member, but it has to keep the Bluetooth link on.
+member, but it has to keep the Bluetooth on.
 
 The application allows users to customize their profile in the settings 
 activity, where they can change username or profile picture. If the profile is 
 not set when a match is starting, a new one is randomly generated. The master 
-in order to recognize players in a match it uses a UUID (Universally Unique 
-Identifier), so different players can have the same username.
+device in order to recognize players in a match uses a Universally Unique 
+Identifier (UUID), so different players can have the same username.
 
 There are two ways to start a match: loading the game from a save and starting 
 a new one. In any case, the smartphone performing one of these actions becomes 
@@ -30,22 +30,30 @@ the Bluetooth master, and it starts waiting for other players to join the
 lobby. When a player joins, she has the possibility to ``poke'' the master, 
 that sees a toast message on her screen (this actions sends a \texttt{POKE} 
 event). Additionally, the player that join the match has to set herself as 
-ready: indeed a match can not start if anyone in the lobby is not ready. 
+ready: a match can start only if all the players in the lobby are ready. 
 The connections created is an ad-hoc one, but as a matter of fact the master 
 forwards the packets it receives to everyone after the match starts, simulating 
 a P2P (Peer-to-Peer) networking. We saw this as an opportunity to semplificate 
 transaction communications.
 When all the conditions to start the match are met, the host has the 
-possibility start it, making every connected device to display the dashboard 
+possibility to start it, making every connected device to display the dashboard 
 activity.
 
 The dashboard activity is subdivided in two tabs: one for transfer money and 
 the other one to see the transaction log. In the first tab, users can send 
-money to each other or to themselves (impresonating the bank). In the second 
+money to each other or to themselves (impersonating the bank). In the second 
 tab, there is the transaction log, that is updated every time someone creates a 
-new transaction. In this log, players can see all the transactions with 
-the possibility of checking if someone is cheating. \todo{Here we should put a 
-screenshot of the application}
+new transaction. In this log, players can see all the transactions done 
+during the match with the possibility of checking if someone is cheating. 
+
+\begin{figure}[t]
+ \centering
+ \includegraphics[scale=0.08]{gamebank}
+ \caption{A GameBank matchmaking}
+ \label{fig:gamebank}
+\end{figure}
+
+
 
 \subsection{Architecture}
 
@@ -68,9 +76,9 @@ Android offers, in particular \texttt{LocalBroadcastManager}.
 Regarding the network layer, it is built in a way that host and client 
 operations are as similar as possible. The only different parts are the way 
 clients and hosts get the MAC address of the receiver. In particular, the host 
-has to keep in memory all the clients addresses, while the clients need to 
-keep in memory only the host address. A particular object, \texttt{BTBundle} is 
-used as a wrapper where other layers can put data to send.
+has to keep all the connections to the clients, while the clients need to keep  
+only one connection. A particular object, \texttt{BTBundle} is used as a wrapper 
+where other layers can put data to send.
 
 \begin{figure}[t]
  \centering
@@ -88,9 +96,8 @@ callbacks.
 
 \subsection{Game creation}
 
-In the section above we briefly talked how a match is created: here we are 
-going to describe in the details the procedure we have designed to connect the 
-Bluetooth devices and to start a match.
+In this part we are going to describe in the details the procedure we have 
+designed to connect the Bluetooth devices and to start a match.
 
 When a user opens a match, in the network layer a Bluetooth socket is opened 
 and set up for incoming connections. When a client connects to the host, the 
