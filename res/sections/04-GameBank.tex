@@ -1,7 +1,7 @@
 \section{GameBank}
 \label{game_bank}
 
-In this section we will illustrate the notable features of GameBank. Since 
+In this section we will illustrate the GameBank notable features. Since 
 describing all the design choices made during the application development would 
 result in a long explanation, we invite the reader to take a look at the public 
 repository available in~\cite{gamebank18}.
@@ -43,19 +43,20 @@ The dashboard activity is subdivided in two tabs: one for transfer money and
 the other one to see the transaction log. In the first tab, users can send 
 money to each other or to themselves (impresonating the bank). In the second 
 tab, there is the transaction log, that is updated every time someone creates a 
-new transaction. In this log, players can see all the transactions. In this 
-way, they can check if someone is cheating. \todo{Here we should put a 
+new transaction. In this log, players can see all the transactions with 
+the possibility of checking if someone is cheating. \todo{Here we should put a 
 screenshot of the application}
 
 \subsection{Architecture}
 
 GameBank architecture is composed of two layers (as 
 explained in Figure~\ref{fig:gbArchitecture}): one for the 
-communications/networking and the other one for the game logic. 
+communications/networking and the other one dedicated to the game logic. 
 
 With this architecture data trasmission and game logic are highly decoupled, so 
-that is easy to make changes to one of the two parts. In particular, this could 
-lead to a simpler re-utilization of the network layer in other applications.
+that is easy to make changes to one of the two parts without repercussion to 
+the other. In particular, this could lead to a simpler re-utilization of the 
+network layer in other applications.
 
 The whole application is built following an event driven architecture. Every 
 change in the application state is interpreted as a new event, that has a 
@@ -82,8 +83,8 @@ The game layer simply takes the events coming from the network transmissions,
 and it stores the data in a Realm database\footnote{\url{https://realm.io/}} 
 through the logic layer, that is based on events too. Finally, the views, that 
 are what the user sees and interact with, subscribe to events coming from logic 
-and bluetooth parts, allowing them to be updated by the \textit{on change 
-callbacks}.
+and Bluetooth parts, allowing them to be updated by the \texttt{onChange} 
+callbacks.
 
 \subsection{Game creation}
 
@@ -92,8 +93,8 @@ going to describe in the details the procedure we have designed to connect the
 Bluetooth devices and to start a match.
 
 When a user opens a match, in the network layer a Bluetooth socket is opened 
-and set up for an incoming connection. When a client connects to the host, to 
-host, first it saves its UUID, its username and its profile picture into a 
+and set up for incoming connections. When a client connects to the host, the 
+host first it saves its UUID, its username and its profile picture into a 
 \texttt{BTBundle} (a rendezvous) and then it sends it back.
 This is the slower phase of the connection: indeed transferring the profile 
 picture is a heavy task for Bluetooth, that takes seconds to transfer the image, 
@@ -147,7 +148,7 @@ The communications during the game creation are synchronous when
 they are asynchronous for packets regarding \texttt{POKE} 
 and \texttt{MEMBER\_READY} actions. Instead, during the match, all the 
 communications are performed synchronously since the order of the transactions 
-is very important.
+is fundamental.
 
 \subsection{Known issues}
 
@@ -156,13 +157,13 @@ partially solve.
 
 \subsubsection{Image dimensions}
 
-As already said, images too large cause long transmission times with bluetooth, 
+As already said, images too large cause long transmission times with Bluetooth, 
 an since we transfer data  in the main thread, this results in the application 
 hanging while transferring it, providing bad usability. In order to partially 
 solve this problem, we have reduced images dimension, scaling them to a default 
 one, converting them to the JPEG format and reducing their overall quality. A 
 definitive solution would be using a thread different from the one running the 
-user interface, displaying to the user a loading message during bluetooth 
+user interface, displaying to the user a loading message during Bluetooth 
 transmissions.
 
 \subsubsection{S3 first application run}
@@ -184,7 +185,7 @@ problem.
 Realm, the database GameBank uses to store data, generated some problem 
 especially regarding extrapolating data from it. In fact, Realm create 
 particular istances of classes that act as proxy from the real data contained 
-in the database, to save RAM memory. This made difficult to send these objects 
+in the database, to save RAM. This made difficult to send these objects 
 via Bluetooth. Initially we tried to send/receive them with 
 \texttt{ObjectOutputStream} and \texttt{ObjectInputStream}, but we discovered 
 that Realm objects were not serializable. Then, we tried to convert them into 
