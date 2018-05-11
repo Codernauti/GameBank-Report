@@ -100,14 +100,14 @@ In this part we are going to describe in the details the procedure we have
 designed to connect the Bluetooth devices and to start a match.
 
 When a user opens a match, in the network layer a Bluetooth socket is opened 
-and set up for incoming connections. When a client connects to the host, the 
-host first it saves its UUID, its username and its profile picture into a 
+and set up for incoming connections. When a client connects to the host, 
+first it saves its UUID, its username and its profile picture into a 
 \texttt{BTBundle} (a rendezvous) and then it sends it back.
 This is the slower phase of the connection: indeed transferring the profile 
 picture is a heavy task for Bluetooth, that takes seconds to transfer the image, 
 even if we used compression techniques to reduce images dimensions. We called 
 this event \texttt{MEMBER\_CONNECTED}. Since the connection of a new member 
-needs to be broadcasted to everyone, the host forwards to all the other clients 
+needs to be broadcasted to everyone, the host forwards to all clients 
 already in the lobby the \texttt{BTBundle} the new member initially sent, acting 
 in a transparent way. When this phase is completed, the host informs the new 
 client with all the informations regarding the match, as the lobby name and a 
@@ -150,12 +150,17 @@ RFCOMM is usually referred as a serial port emulator, it is make on top of
 the L2CAP protocol~\cite{bisdikian01}, and allows up to 60 simultaneous 
 connections between two Bluetooth devices~\cite{aneesh12}.
 
-The communications during the game creation are synchronous when 
-\texttt{MEMBER\_CONNECTED} and \texttt{CURRENT\_STATE} events happen, while 
-they are asynchronous for packets regarding \texttt{POKE} 
-and \texttt{MEMBER\_READY} actions. Instead, during the match, all the 
-communications are performed synchronously since the order of the transactions 
-is fundamental.
+The communications during the game creation are atomic when 
+\texttt{MEMBER\_CONNECTED} and \texttt{CURRENT\_STATE} events happen, that 
+means that other events can not be handle between these two.
+
+When an action occur from the user: if the device is a client it update its logic 
+and it sends the event to the host which will broadcast it to the other clients. 
+Instead if the device is a host, it updates its logic and it will send it to all 
+clients. This transmission reduce the packets that host must broadcast but doesn't 
+guarantee the same order for all players. 
+Since this situation can happen few times in a slow traffic application like 
+GameBank we prefer to reduce transmissions rather than the synchronization of events.
 
 \subsection{Known issues}
 
@@ -192,7 +197,7 @@ problem.
 Realm, the database GameBank uses to store data, generated some problem 
 especially regarding extrapolating data from it. In fact, Realm create 
 particular istances of classes that act as proxy from the real data contained 
-in the database, to save RAM. This made difficult to send these objects 
+in the database, to reduce disk accesses. This made difficult to send these objects 
 via Bluetooth. Initially we tried to send/receive them with 
 \texttt{ObjectOutputStream} and \texttt{ObjectInputStream}, but we discovered 
 that Realm objects were not serializable. Then, we tried to convert them into 
