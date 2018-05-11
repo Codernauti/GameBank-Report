@@ -152,15 +152,16 @@ connections between two Bluetooth devices~\cite{aneesh12}.
 
 The communications during the game creation are atomic when 
 \texttt{MEMBER\_CONNECTED} and \texttt{CURRENT\_STATE} events happen, that 
-means that other events can not be handle between these two.
+means that other events can not be processed meanwhile.
 
-When an action occur from the user: if the device is a client it update its logic 
-and it sends the event to the host which will broadcast it to the other clients. 
-Instead if the device is a host, it updates its logic and it will send it to all 
-clients. This transmission reduce the packets that host must broadcast but doesn't 
-guarantee the same order for all players. 
-Since this situation can happen few times in a slow traffic application like 
-GameBank we prefer to reduce transmissions rather than the synchronization of events.
+The way the data get sent changes when a user's device is a client or a 
+host: in the first case the client updates its logic and then it sends the 
+events to the host which will broadcast it to the other clients, instead in the 
+second case, the host updates its logic first and then it sends them via 
+a broadcast message. In this way there is no way for a client to check if the 
+event it sent was received successfully and it does not guaratee the same event 
+processing for every member, but it saves data transfer and it makes the 
+backend logic simpler.
 
 \subsection{Known issues}
 
@@ -195,10 +196,10 @@ problem.
 \subsubsection{Realm database}
 
 Realm, the database GameBank uses to store data, generated some problem 
-especially regarding extrapolating data from it. In fact, Realm create 
+especially regarding extrapolating data from it. In fact, Realm creates 
 particular istances of classes that act as proxy from the real data contained 
-in the database, to reduce disk accesses. This made difficult to send these objects 
-via Bluetooth. Initially we tried to send/receive them with 
+in the database, to reduce disk accesses. This made difficult to send these  
+objects via Bluetooth. We tried initially to send/receive them with 
 \texttt{ObjectOutputStream} and \texttt{ObjectInputStream}, but we discovered 
 that Realm objects were not serializable. Then, we tried to convert them into 
 JSON objects, but even here we faced some problems because we had to manually 
