@@ -18,10 +18,10 @@ in multiplayer-only mode. Indeed, because a single player match is a particular
 instance of a multiplayer game, the application can start a match even with one 
 member, but it has to keep the Bluetooth on.
 
-The application allows users to customize their profile in the settings 
+The application allows users to customise their profile in the settings 
 activity, where they can change username or profile picture. If the profile is 
 not set when a match is starting, a new one is randomly generated. The master 
-device in order to recognize players in a match uses a Universally Unique 
+device in order to recognise players in a match uses a Universally Unique 
 Identifier (UUID), so different players can have the same username.
 
 There are two ways to start a match: loading the game from a save and starting 
@@ -33,7 +33,7 @@ event). Additionally, the player that join the match has to set herself as
 ready: a match can start only if all the players in the lobby are ready. 
 The connections created is an ad-hoc one, but as a matter of fact the master 
 forwards the packets it receives to everyone after the match starts, simulating 
-a P2P (Peer-to-Peer) networking. We saw this as an opportunity to semplificate 
+a P2P (Peer-to-Peer) networking. We saw this as an opportunity to simplify 
 transaction communications.
 When all the conditions to start the match are met, the host has the 
 possibility to start it, making every connected device to display the dashboard 
@@ -61,15 +61,15 @@ GameBank architecture is composed of two layers (as
 explained in Figure~\ref{fig:gbArchitecture}): one for the 
 communications/networking and the other one dedicated to the game logic. 
 
-With this architecture data trasmission and game logic are highly decoupled, so 
+With this architecture data transmission and game logic are highly decoupled, so 
 that is easy to make changes to one of the two parts without repercussion to 
-the other. In particular, this could lead to a simpler re-utilization of the 
+the other. In particular, this could lead to a simpler re-utilisation of the 
 network layer in other applications.
 
 The whole application is built following an event driven architecture. Every 
 change in the application state is interpreted as a new event, that has a 
 particular tag and is captured from subscribers along the application. While 
-this seems to make the flow difficult to understand and cubersome, it actually 
+this seems to make the flow difficult to understand and cumbersome, it actually 
 allows to keep the code very decoupled. To achieve this, we used specific APIs 
 Android offers, in particular \texttt{LocalBroadcastManager}.
 
@@ -107,10 +107,10 @@ This is the slower phase of the connection: indeed transferring the profile
 picture is a heavy task for Bluetooth, that takes seconds to transfer the image, 
 even if we used compression techniques to reduce images dimensions. We called 
 this event \texttt{MEMBER\_CONNECTED}. Since the connection of a new member 
-needs to be broadcasted to everyone, the host forwards to all clients 
+needs to be broadcast to everyone, the host forwards to all clients 
 already in the lobby the \texttt{BTBundle} the new member initially sent, acting 
 in a transparent way. When this phase is completed, the host informs the new 
-client with all the informations regarding the match, as the lobby name and a 
+client with all the information regarding the match, as the lobby name and a 
 list of players already connected. We labelled this event as 
 \texttt{CURRENT\_STATE}. In case the match comes from a previous save, the new 
 client receives, in the same event, all the transactions performed before.
@@ -124,11 +124,11 @@ client receives, in the same event, all the transactions performed before.
 
 A match can start when all the members are ready. In order to do so, users have 
 to check the option in the lobby. When this action is performed, a 
-\texttt{MEMBER\_READY} event is triggered. This event is broadcasted to everyone 
+\texttt{MEMBER\_READY} event is triggered. This event is broadcast to everyone 
 to allow the other clients to update their UI.
 
 When the host choose to start the match, the event \texttt{START} is 
-broadcasted too, making the clients start the dashboard activity.
+broadcast too, making the clients start the dashboard activity.
 
 \begin{figure}[t]
  \centering
@@ -159,7 +159,7 @@ host: in the first case the client updates its logic and then it sends the
 events to the host which will broadcast it to the other clients, instead in the 
 second case, the host updates its logic first and then it sends them via 
 a broadcast message. In this way there is no way for a client to check if the 
-event it sent was received successfully and it does not guaratee the same event 
+event it sent was received successfully and it does not guarantee the same event 
 processing for every member, but it saves data transfer and it makes the 
 backend logic simpler.
 
@@ -187,7 +187,7 @@ thus to send her profile picture at the first application run. Debugging did
 not produce any evidence of bugs in our application, since the permissions 
 were granted during the start up time.
 We address this issue to the custom ROM installed on the smartphone, LineageOS 
-(Android Nougat 7.1), which probably has some problem to handle authorizations 
+(Android Nougat 7.1), which probably has some problem to handle authorisations 
 only on S3 smartphones. In fact, we tried this ROM on a Nexus 5 and we have not 
 noticed any erroneous behaviour. To confirm our guesses, we tried other 
 applications available on the Google's Play Store, experiencing the same 
@@ -197,7 +197,7 @@ problem.
 
 Realm, the database GameBank uses to store data, generated some problem 
 especially regarding extrapolating data from it. In fact, Realm creates 
-particular istances of classes that act as proxy from the real data contained 
+particular instances of classes that act as proxy from the real data contained 
 in the database, to reduce disk accesses. This made difficult to send these  
 objects via Bluetooth. We tried initially to send/receive them with 
 \texttt{ObjectOutputStream} and \texttt{ObjectInputStream}, but we discovered 
@@ -207,6 +207,6 @@ implement serializer/deserializer handlers for the \texttt{Gson} framework we
 used to manipulate JSONs, since these Realm proxies didn't provide 
 automatically data at conversion time.
 
-On top of that, the framework revealed to be very difficult to decuple with the 
+On top of that, the framework revealed to be very difficult to decouple with the 
 rest of the application, resulting sometimes in a blending between the view and 
 the logic modules.
