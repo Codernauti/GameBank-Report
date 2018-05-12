@@ -11,7 +11,7 @@ SHELL := /bin/bash #Need bash not shell
 all: compile
 
 compile:
-	set -e; \
+	@set -e; \
 	if [[ -a "res/$(LIST_NAME)" ]]; then echo "Removing res/$(LIST_NAME)"; \
 		rm res/$(LIST_NAME); fi; \
 	for i in $(sort $(wildcard $(PATH_OF_CONTENTS)/*.tex)); do \
