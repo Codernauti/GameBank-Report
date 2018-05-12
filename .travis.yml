@@ -18,8 +18,8 @@ addons:
     - texlive-publishers
     - pgf
 script:
-- make compile
+- make -B
 after_failure:
-- cat GameBank.log
+- cat report/GameBank.log
 before_deploy:
 - git fetch --tags

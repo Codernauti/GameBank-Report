@@ -133,7 +133,7 @@ sympy-plots-for-*.tex/
 #Other
 *.pdf
 
-res/listOfSections.tex
+report/res/listOfSections.tex
 
 Tesi.zip
 bin/*
