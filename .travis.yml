@@ -17,9 +17,12 @@ addons:
     - latex-xcolor
     - texlive-publishers
     - pgf
+    - lmodern
+    - latex-beamer
 script:
-- make -B
+- make -B -j2
 after_failure:
-- cat report/GameBank.log
+- cat report/GameBankReport.log
+- cat presentation/GameBankPresentation.log
 before_deploy:
 - git fetch --tags

@@ -1,15 +1,15 @@
 SHELL := /bin/bash
+SUBDIRS = report presentation
 
-all: report presentation
+.PHONY: all
+.DEFAULT_GOAL := all
 
-report:
-	@cd report/ && $(MAKE) compile
 
-presentation:
-	@echo "Presentation not implemented yet"
+all: $(SUBDIRS)
+
+$(SUBDIRS):
+	$(MAKE) $(EXTRA_CCFLAGS) -C $@
 
 clean:
 	@cd report/ && $(MAKE) clean
-	# TODO call clean for presentation
-
-.PHONY: all
+	@cd presentation/ && $(MAKE) clean
