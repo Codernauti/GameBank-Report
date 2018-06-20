@@ -58,19 +58,6 @@ modifying the length of the values would imply different quantity of bytes
 transmitted.
 
 \subsection{Data analysis}
-\begin{figure}[t]
- \centering
- \includegraphics[scale=0.7]{client_data_utilization}
- \caption{Graph illustrating the input/output for a client}
- \label{fig:res:cdu}
-\end{figure}
-
-\begin{figure}[t]
- \centering
- \includegraphics[scale=0.7]{host_data_utilization}
- \caption{Graph illustrating the input/output for a host}
- \label{fig:res:hdu}
-\end{figure}
 
 Analysing the graphs we obtained in Figure~\ref{fig:res:cdu} and 
 Figure~\ref{fig:res:hdu}, we discovered that it follows a particular growth 
@@ -91,3 +78,17 @@ the data sent between devices is quite small.
 The only thing that surprised us was that Android is not able to support over 
 seven simultaneous Bluetooth connection. When we tried to connect eight devices 
 we incurred in an Android Bluetooth API crash.
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[scale=0.7]{client_data_utilization}
+ \caption{Graph illustrating the input/output for a client}
+ \label{fig:res:cdu}
+\end{figure}
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[scale=0.7]{host_data_utilization}
+ \caption{Graph illustrating the input/output for a host}
+ \label{fig:res:hdu}
+\end{figure}

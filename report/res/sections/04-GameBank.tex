@@ -8,10 +8,9 @@ repository available in~\cite{gamebank18}.
 
 \subsection{How it works}
 
-GameBank, as already described in Section~\ref{introduction}, is an application 
-complementary to a board game. It helps players removing some burden related to 
-manage possible in-game transaction, distributing the task to the members and 
-eliminating the need of a game master.
+GameBank, is an application complementary to a board game. It helps players 
+to remove some burden related to manage possible in-game transaction, 
+distributing the task to the members and eliminating the need of a game master.
 
 Since the social nature of board games, the application is designed to work 
 in multiplayer-only mode. Indeed, because a single player match is a particular 
@@ -24,22 +23,22 @@ not set when a match is starting, a new one is randomly generated. The master
 device in order to recognise players in a match uses a Universally Unique 
 Identifier (UUID), so different players can have the same username.
 
-There are two ways to start a match: loading the game from a save and starting 
-a new one. In any case, the smartphone performing one of these actions becomes 
-the Bluetooth master, and it starts waiting for other players to join the 
-lobby. When a player joins, she has the possibility to ``poke'' the master, 
-that sees a toast message on her screen (this actions sends a \texttt{POKE} 
-event). Additionally, the player that join the match has to set herself as 
+There are two ways to start a match: loading the game from a saved one and 
+starting a new one. In any case, the smartphone performing one of these actions 
+becomes the Bluetooth master, and it waits for other players to join 
+the lobby. When a player joins, she has the possibility to ``poke'' the master, 
+that sees a toast message on her screen (this action sends a \texttt{POKE} 
+event). Additionally, the player that joins the match has to set herself as 
 ready: a match can start only if all the players in the lobby are ready. 
 The connections created is an ad-hoc one, but as a matter of fact the master 
-forwards the packets it receives to everyone after the match starts, simulating 
+forwards the packets received to everyone after the match starts, simulating 
 a P2P (Peer-to-Peer) networking. We saw this as an opportunity to simplify 
 transaction communications.
 When all the conditions to start the match are met, the host has the 
 possibility to start it, making every connected device to display the dashboard 
 activity.
 
-The dashboard activity is subdivided in two tabs: one for transfer money and 
+The dashboard activity is subdivided in two tabs: one to transfer money and 
 the other one to see the transaction log. In the first tab, users can send 
 money to each other or to themselves (impersonating the bank). In the second 
 tab, there is the transaction log, that is updated every time someone creates a 
@@ -57,15 +56,16 @@ during the match with the possibility of checking if someone is cheating.
     ~ 
     \begin{subfigure}
         \centering
-        \includegraphics[scale=0.056]{gamebank}
+        \includegraphics[scale=0.056]{photogb}
         \label{fig:gamebank}
     \end{subfigure}
+    \label{fig:matchmaking}
     \caption{Respectively a GameBank match and matchmaking}
 \end{figure}
 
 \subsection{Architecture}
 
-GameBank architecture is composed of two layers (as 
+The GameBank architecture is composed of two layers (as 
 explained in Figure~\ref{fig:gbArchitecture}): one for the 
 communications/networking and the other one dedicated to the game logic. 
 
@@ -98,14 +98,15 @@ where other layers can put data to send.
 The game layer simply takes the events coming from the network transmissions, 
 and it stores the data in a Realm database\footnote{\url{https://realm.io/}} 
 through the logic layer, that is based on events too. Finally, the views, that 
-are what the user sees and interact with, subscribe to events coming from logic 
-and Bluetooth parts, allowing them to be updated by the \texttt{onChange} 
+are what the user sees and interacts with, subscribe to events coming from 
+logic and Bluetooth parts, allowing them to be updated by the \texttt{onChange} 
 callbacks.
 
 \subsection{Game creation}
 
 In this part we are going to describe in the details the procedure we have 
-designed to connect the Bluetooth devices and to start a match.
+designed to connect the Bluetooth devices and to start a match (the result can 
+be seen in Figure~\hyperref[fig:matchmaking]{1}).
 
 When a user opens a match, in the network layer a Bluetooth socket is opened 
 and set up for incoming connections. When a client connects to the host, 
@@ -162,26 +163,26 @@ The communications during the game creation are atomic when
 \texttt{MEMBER\_CONNECTED} and \texttt{CURRENT\_STATE} events happen, that 
 means that other events can not be processed meanwhile.
 
-The way the data get sent changes when a user's device is a client or a 
-host: in the first case the client updates its logic and then it sends the 
-events to the host which will broadcast it to the other clients, instead in the 
-second case, the host updates its logic first and then it sends them via 
-a broadcast message. In this way there is no way for a client to check if the 
-event it sent was received successfully and it does not guarantee the same event 
-processing for every member, but it saves data transfer and it makes the 
-backend logic simpler.
+The way the data get sent changes depending on whether the user's device is a 
+client or a host: in the first case the client updates its logic and then it 
+sends the events to the host which will broadcast it to the other clients. 
+Instead in the second case, the host updates its logic first and then it sends 
+them via a broadcast message. In this way there is no possibility for a client 
+to check if the event was received successfully and it does not guarantee the 
+same event processing for every member, but it saves data transfer and it makes 
+the backend logic simpler.
 
 \subsection{Known issues}
 
 During the app development we have faced some issues that we were able to 
 partially solve.
 
-\subsubsection{Image dimensions}
+\subsubsection{Image size}
 
 As already said, images too large cause long transmission times with Bluetooth, 
 an since we transfer data  in the main thread, this results in the application 
 hanging while transferring it, providing bad usability. In order to partially 
-solve this problem, we have reduced images dimension, scaling them to a default 
+solve this problem, we have reduced images size, scaling them to a default 
 one, converting them to the JPEG format and reducing their overall quality. A 
 definitive solution would be using a thread different from the one running the 
 user interface, displaying to the user a loading message during Bluetooth 
